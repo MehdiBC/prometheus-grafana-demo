@@ -1,0 +1,10 @@
+version: "3.3"
+services:
+  web-app:
+    build: .
+    container_name: web-app
+    ports:
+      - "8000:3000"
+    volumes:
+      - .:/app
+      - node_modules
