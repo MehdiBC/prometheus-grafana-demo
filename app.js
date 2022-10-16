@@ -2,6 +2,13 @@ const express = require('express');
 const app = express();
 const port = 3000;
 
+const client = require('prom-client');
+const metricNumberHttpReq = new client.Counter({
+  name: 'http_request_total',
+  help: 'Total number of received requests',
+  labelNames: ['status'],
+});
+
 /**
  * Fibonacci number computing using dynamic programming
  *
@@ -39,11 +46,24 @@ app.get('/', (req, res) => {
     validate(req);
     const fibResult = fib(parseInt(req.query["number"]));
     res.statusCode = 200;
+    metricNumberHttpReq.labels("200").inc();
     res.send(`${fibResult}`);
   } catch (e) {
     res.statusCode = 400;
+    metricNumberHttpReq.labels("400").inc();
     res.send(e.message);
   }
+});
+
+/**
+ * Endpoint for exporting metrics
+ *
+ * @param {Request} req
+ * @param {Response} res
+ */
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', client.register.contentType);
+  res.send(await client.register.metrics());
 });
 
 app.listen(port, () => {

@@ -1,6 +1,8 @@
 .idea/
 .git/
 node_modules/
+prometheus/
+grafana/
 docker-compose.yml
 .gitignore
 .dockerignore
