@@ -18,7 +18,7 @@ in the system from the outside.
   We are interested in a numerical metric between two buckets.  
   example: latency of the system
 
-**Instrumentation** is the action of defining the metric and expose it, 
+**Instrumentation** is the action of writing code to define the metric and expose it, 
 and then it's up to prometheus to scrape the application and store it.
 
 It is important when setting up prometheus in production to have 
